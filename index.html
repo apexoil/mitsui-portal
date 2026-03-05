@@ -9,6 +9,7 @@
         :root {
             --mitsui-blue: #004098;
             --success-green: #0ecb81;
+            --danger-red: #f6465d;
             --gold: #c5a059;
             --bg: #f4f7f9;
             --white: #ffffff;
@@ -18,16 +19,12 @@
         * { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Hiragino Sans', 'Meiryo', 'Segoe UI', sans-serif; }
         body { background: var(--bg); color: var(--text); line-height: 1.5; }
 
-        /* LOGIN PAGE */
-        #login-page { min-height: 100vh; display: flex; align-items: center; justify-content: center; background: #fff; }
         .login-card { width: 100%; max-width: 420px; padding: 40px 30px; text-align: center; border-top: 5px solid var(--mitsui-blue); box-shadow: 0 8px 25px rgba(0,0,0,0.08); border-radius: 8px; }
         .brand-title { font-size: 32px; font-weight: 900; color: var(--mitsui-blue); letter-spacing: 1px; margin-bottom: 30px; }
         .login-input { width: 100%; padding: 14px; margin: 12px 0; border: 1px solid var(--border); border-radius: 6px; font-size: 15px; }
         .btn-login { width: 100%; padding: 14px; background: var(--mitsui-blue); color: white; border: none; border-radius: 6px; font-weight: bold; font-size: 16px; cursor: pointer; transition: background 0.3s; }
         .btn-login:hover { background: #003070; }
 
-        /* HEADER & LAYOUT */
-        #main-app { display: none; }
         header { background: var(--mitsui-blue); color: white; padding: 12px 20px; display: flex; justify-content: space-between; align-items: center; position: sticky; top: 0; z-index: 100; box-shadow: 0 2px 10px rgba(0,0,0,0.15); }
         .brand-title-header { font-size: 26px; font-weight: 900; letter-spacing: 1px; }
         .nav-trigger { font-size: 24px; cursor: pointer; }
@@ -39,10 +36,9 @@
         .content { margin-left: 240px; padding: 25px; }
         .card { background: white; border-radius: 10px; border: 1px solid var(--border); padding: 25px; margin-bottom: 25px; box-shadow: 0 4px 12px rgba(0,0,0,0.04); }
 
-        .profit-up { color: var(--success-green); font-weight: bold; }
-        .big-green { font-size: 48px; font-weight: 900; color: var(--success-green); margin: 12px 0; }
-        .badge-active { background: rgba(14,203,129,0.1); color: var(--success-green); padding: 6px 14px; border-radius: 20px; font-size: 13px; font-weight: bold; }
-        .badge-gold { background: var(--gold); color: white; padding: 6px 14px; border-radius: 20px; font-size: 13px; }
+        .big-green, .fluctuate { transition: color 1.2s ease, transform 0.4s ease; }
+        .up { color: var(--success-green) !important; transform: scale(1.015); }
+        .down { color: var(--danger-red) !important; transform: scale(0.99); }
 
         table { width: 100%; border-collapse: collapse; margin-top: 15px; }
         th { text-align: left; color: #777; font-size: 13px; padding: 12px; border-bottom: 1px solid var(--border); }
@@ -91,8 +87,7 @@
         </div>
     </div>
 
-    <div id="main-app">
-        <!-- HEADER -->
+    <div id="main-app" style="display:none;">
         <header>
             <div class="brand-title-header">MITSUI & CO., LTD.</div>
             <div style="display:flex; align-items:center; gap:20px;">
@@ -117,27 +112,27 @@
                     <div style="display:flex; justify-content:space-between; align-items:start; flex-wrap:wrap; gap:15px;">
                         <div>
                             <p style="font-size: 13px; opacity: 0.85;">TOTAL ACCOUNT VALUE (総資産額)</p>
-                            <div class="big-green" id="total-val">¥3,847,520</div>
+                            <div class="big-green fluctuate" id="total-val">¥3,847,520</div>
                         </div>
                         <span class="badge-gold">GOLD VIP</span>
                     </div>
                     <div style="display:flex; flex-wrap:wrap; gap:25px; margin-top:18px; font-size: 14px;">
                         <div>Initial: <span id="init-val">¥3,000,000</span></div>
-                        <div>Total Profit: <span class="profit-up" id="profit-val">+¥847,520</span></div>
-                        <div>Return: <span class="profit-up">+28.25% ▲</span></div>
+                        <div>Total Profit: <span class="fluctuate" id="profit-val">+¥847,520</span></div>
+                        <div>Return: <span class="fluctuate" id="return-val">+28.25% ▲</span></div>
                     </div>
                 </div>
 
                 <div style="display:grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap:20px;">
                     <div class="card">
                         <p style="font-size:13px; color:#777;">AVAILABLE FOR WITHDRAWAL</p>
-                        <h2 style="margin:12px 0;" id="avail-val">¥3,847,520</h2>
+                        <h2 class="fluctuate" id="avail-val">¥3,847,520</h2>
                         <button class="btn-login" style="background: var(--success-green); padding:12px; font-size:15px;" onclick="showPage('withdraw')">WITHDRAW NOW</button>
                     </div>
                     <div class="card">
                         <p style="font-size:13px; color:#777;">TODAY'S PROFIT</p>
-                        <h2 style="margin:12px 0; color: var(--success-green);">+¥67,420 <span style="font-size:15px;">(1.78% ▲)</span></h2>
-                        <p style="font-size:12px; color:#777;">Real-time Market Gain</p>
+                        <h2 class="fluctuate" id="today-profit">+¥67,420 <span style="font-size:15px;">(1.78% ▲)</span></h2>
+                        <p style="font-size:12px; color:#777;">Conservative Portfolio Gain</p>
                     </div>
                 </div>
 
@@ -149,9 +144,9 @@
                         </thead>
                         <tbody id="trade-history">
                             <tr><td>Feb 11, 10:23</td><td>Crude Oil Futures</td><td class="profit-up">BUY</td><td>¥680,000</td><td class="profit-up">+¥12,240</td></tr>
-                            <tr><td>Feb 11, 09:15</td><td>Natural Gas</td><td class="profit-up">SELL</td><td>¥430,000</td><td class="profit-up">+¥8,170</td></tr>
-                            <tr><td>Feb 10, 14:47</td><td>Gold Futures</td><td class="profit-up">SELL</td><td>¥520,000</td><td class="profit-up">+¥11,960</td></tr>
-                            <tr><td>Feb 10, 11:32</td><td>Brent Oil</td><td class="profit-up">BUY</td><td>¥680,000</td><td class="profit-up">+¥13,600</td></tr>
+                            <tr><td>Feb 11, 09:15</td><td>Natural Gas</td><td>SELL</td><td>¥430,000</td><td class="profit-up">+¥8,170</td></tr>
+                            <tr><td>Feb 10, 14:47</td><td>Gold Futures</td><td>SELL</td><td>¥520,000</td><td class="profit-up">+¥11,960</td></tr>
+                            <tr><td>Feb 10, 11:32</td><td>Brent Oil</td><td>BUY</td><td>¥680,000</td><td class="profit-up">+¥13,600</td></tr>
                         </tbody>
                     </table>
                 </div>
@@ -178,7 +173,7 @@
                             <p style="font-size:18px; font-weight:600;">Kazumasa Nakai</p>
                             <p style="font-size:13px; color:#777;">Senior Investment Manager</p>
                             <a href="https://line.me/ti/p/7u8Tnjzq4r" target="_blank" style="color: var(--mitsui-blue); text-decoration: none; font-weight:600; display:inline-flex; align-items:center; gap:8px; margin-top:8px;">
-                                <i class="fa-brands fa-line" style="font-size:20px;"></i> Contact via LINE
+                                <i class="fa-brands fa-line" style="font-size:20px; color:#00b900;"></i> Contact / Add on LINE
                             </a>
                         </div>
                     </div>
@@ -231,6 +226,7 @@
     <script>
         let currentBalance = 3847520;
         let initialDeposit = 3000000;
+        let todayProfit = 67420;
         let taxRate = 0.204;
         let adminTaps = 0;
 
@@ -240,35 +236,70 @@
             document.getElementById('login-page').style.display = 'none';
             document.getElementById('main-app').style.display = 'block';
             updateDisplays();
-            // startLiveUpdates(); // comment out if you don't want auto-increase
+            startLowVolSimulation();
+        }
+
+        function updateDisplays() {
+            const balStr = "¥" + Math.round(currentBalance).toLocaleString('ja-JP');
+            document.getElementById('total-val').innerText = balStr;
+            document.getElementById('avail-val').innerText = balStr;
+            document.getElementById('w-avail-display').innerText = balStr;
+
+            const profit = currentBalance - initialDeposit;
+            document.getElementById('profit-val').innerText = (profit >= 0 ? "+" : "") + "¥" + Math.round(profit).toLocaleString('ja-JP');
+
+            const returnPct = ((profit / initialDeposit) * 100).toFixed(2);
+            document.getElementById('return-val').innerText = (returnPct >= 0 ? "+" : "") + returnPct + "% " + (returnPct >= 0 ? "▲" : "▼");
+
+            document.getElementById('today-profit').innerHTML = 
+                (todayProfit >= 0 ? "+" : "") + "¥" + Math.round(todayProfit).toLocaleString('ja-JP') + 
+                ' <span style="font-size:15px;">(' + (todayProfit / currentBalance * 100).toFixed(2) + "% " + (todayProfit >= 0 ? "▲" : "▼") + ')</span>';
+        }
+
+        function flashChange(elementId, isUp) {
+            const el = document.getElementById(elementId);
+            if (!el) return;
+            el.classList.remove('up', 'down');
+            void el.offsetWidth;
+            el.classList.add(isUp ? 'up' : 'down');
+            setTimeout(() => el.classList.remove('up', 'down'), 1800);
+        }
+
+        function startLowVolSimulation() {
+            setInterval(() => {
+                // Very low volatility: tiny moves, strong upward bias, rare small downs
+                const change = Math.floor(Math.random() * 7000) - 1000; // -1k to +6k
+                currentBalance += change;
+                todayProfit += change;
+
+                // Prevent unrealistic drops in conservative mode
+                if (currentBalance < initialDeposit * 0.98) {
+                    currentBalance = initialDeposit * 0.98 + Math.abs(change) / 2;
+                }
+
+                updateDisplays();
+
+                const isUp = change >= 0;
+                ['total-val', 'avail-val', 'profit-val', 'return-val', 'today-profit'].forEach(id => {
+                    flashChange(id, isUp);
+                });
+            }, Math.random() * 7000 + 8000); // 8–15 seconds interval → calm & professional
         }
 
         function showPage(pageId) {
             document.querySelectorAll('[id^="page-"]').forEach(p => p.style.display = 'none');
             document.getElementById('page-' + pageId).style.display = 'block';
             document.querySelectorAll('.nav-item').forEach(item => item.classList.remove('active'));
-            event.target.closest('.nav-item')?.classList.add('active');
-            toggleMenu(true); // close sidebar on mobile
+            if (event && event.target.closest('.nav-item')) event.target.closest('.nav-item').classList.add('active');
+            toggleMenu(true);
         }
 
         function toggleMenu(forceClose = false) {
             const sidebar = document.getElementById('sidebar');
             if (window.innerWidth <= 768) {
-                if (forceClose) {
-                    sidebar.classList.remove('open');
-                } else {
-                    sidebar.classList.toggle('open');
-                }
+                if (forceClose) sidebar.classList.remove('open');
+                else sidebar.classList.toggle('open');
             }
-        }
-
-        function updateDisplays() {
-            const balStr = "¥" + currentBalance.toLocaleString('ja-JP');
-            document.getElementById('total-val').innerText = balStr;
-            document.getElementById('avail-val').innerText = balStr;
-            document.getElementById('w-avail-display').innerText = balStr;
-            document.getElementById('profit-val').innerText = "+¥" + (currentBalance - initialDeposit).toLocaleString('ja-JP');
-            document.getElementById('init-val').innerText = "¥" + initialDeposit.toLocaleString('ja-JP');
         }
 
         function submitWithdraw() {
@@ -315,16 +346,6 @@
             document.getElementById('admin-panel').classList.remove('open');
         }
 
-        // Optional: live profit simulation (comment out if unwanted)
-        // function startLiveUpdates() {
-        //     setInterval(() => {
-        //         let gain = Math.floor(Math.random() * 30) + 10;
-        //         currentBalance += gain;
-        //         updateDisplays();
-        //     }, 8000);
-        // }
-
-        // Close admin on outside click (optional)
         document.addEventListener('click', (e) => {
             const panel = document.getElementById('admin-panel');
             if (panel.classList.contains('open') && !e.target.closest('#admin-panel') && !e.target.closest('[onclick*="adminTrigger"]')) {
