@@ -26,15 +26,21 @@
         .btn-login:hover { background: #003070; }
 
         header { background: var(--mitsui-blue); color: white; padding: 12px 20px; display: flex; justify-content: space-between; align-items: center; position: sticky; top: 0; z-index: 100; box-shadow: 0 2px 10px rgba(0,0,0,0.15); }
-        .brand-title-header { font-size: 26px; font-weight: 900; letter-spacing: 1px; }
-        .nav-trigger { font-size: 24px; cursor: pointer; }
+        .brand-title-header { 
+            font-size: 26px; 
+            font-weight: 900; 
+            letter-spacing: 1px; 
+            white-space: nowrap; 
+            overflow: hidden; 
+            text-overflow: ellipsis; 
+        }
 
         .sidebar { width: 240px; background: white; height: calc(100vh - 60px); position: fixed; border-right: 1px solid var(--border); padding: 20px 0; overflow-y: auto; transition: transform 0.3s; transform: translateX(0); }
         .nav-item { padding: 14px 25px; cursor: pointer; display: flex; align-items: center; gap: 12px; transition: all 0.2s; font-size: 15px; }
         .nav-item:hover, .nav-item.active { background: #f0f4f8; border-left: 4px solid var(--mitsui-blue); color: var(--mitsui-blue); font-weight: 600; }
 
         .content { margin-left: 240px; padding: 25px; }
-        .card { background: white; border-radius: 10px; border: 1px solid var(--border); padding: 25px; margin-bottom: 25px; box-shadow: 0 4px 12px rgba(0,0,0,0.04); }
+        .card { background: white; border-radius: 12px; border: 1px solid var(--border); padding: 28px; margin-bottom: 25px; box-shadow: 0 6px 16px rgba(0,0,0,0.06); }
 
         .profit-green { color: var(--success-green) !important; font-weight: bold; }
         .fluctuate { transition: all 0.8s ease; }
@@ -50,9 +56,21 @@
             50%      { color: white; transform: scale(0.92); background: rgba(246,70,93,0.4); }
         }
 
+        .badge-gold { 
+            background: var(--gold); 
+            color: white; 
+            padding: 6px 16px; 
+            border-radius: 20px; 
+            font-size: 13px; 
+            font-weight: bold; 
+            box-shadow: 0 2px 6px rgba(197,160,89,0.3); 
+        }
+
         table { width: 100%; border-collapse: collapse; margin-top: 15px; }
         th { text-align: left; color: #777; font-size: 13px; padding: 12px; border-bottom: 1px solid var(--border); }
         td { padding: 14px 12px; border-bottom: 1px solid #f9f9f9; font-size: 14px; }
+        .buy { color: var(--success-green); font-weight: 600; }
+        .sell { color: var(--danger-red); font-weight: 600; }
 
         .modal { display: none; position: fixed; inset: 0; background: rgba(0,0,0,0.7); z-index: 1000; align-items: center; justify-content: center; }
         .modal-content { background: white; width: 90%; max-width: 520px; padding: 35px; border-radius: 10px; text-align: center; }
@@ -65,6 +83,7 @@
             .sidebar { transform: translateX(-100%); width: 280px; }
             .sidebar.open { transform: translateX(0); }
             .content { margin-left: 0; padding: 15px; }
+            .brand-title-header { font-size: 22px; }
         }
     </style>
 </head>
@@ -119,8 +138,8 @@
                 <div class="card" style="background: linear-gradient(135deg, #004098 0%, #001a38 100%); color: white; border: none;">
                     <div style="display:flex; justify-content:space-between; align-items:start; flex-wrap:wrap; gap:15px;">
                         <div>
-                            <p style="font-size: 13px; opacity: 0.85;">TOTAL ACCOUNT VALUE (総資産額)</p>
-                            <div class="fluctuate big-green" id="total-val">¥3,847,520</div>
+                            <p style="font-size: 13px; opacity: 0.85;">TOTAL ASSET VALUE (総資産額)</p>
+                            <div class="fluctuate profit-green" id="total-val" style="font-size: 52px; font-weight: 900;">¥3,847,520</div>
                         </div>
                         <span class="badge-gold">GOLD VIP</span>
                     </div>
@@ -151,10 +170,10 @@
                             <tr><th>DATE</th><th>ASSET</th><th>SIDE</th><th>AMOUNT</th><th>PROFIT</th></tr>
                         </thead>
                         <tbody id="trade-history">
-                            <tr><td>Feb 11, 10:23</td><td>Crude Oil Futures</td><td class="profit-up">BUY</td><td>¥680,000</td><td class="profit-up">+¥12,240</td></tr>
-                            <tr><td>Feb 11, 09:15</td><td>Natural Gas</td><td>SELL</td><td>¥430,000</td><td class="profit-up">+¥8,170</td></tr>
-                            <tr><td>Feb 10, 14:47</td><td>Gold Futures</td><td>SELL</td><td>¥520,000</td><td class="profit-up">+¥11,960</td></tr>
-                            <tr><td>Feb 10, 11:32</td><td>Brent Oil</td><td>BUY</td><td>¥680,000</td><td class="profit-up">+¥13,600</td></tr>
+                            <tr><td>Feb 11, 10:23</td><td>Crude Oil Futures</td><td class="buy">BUY</td><td>¥680,000</td><td class="profit-green">+¥12,240</td></tr>
+                            <tr><td>Feb 11, 09:15</td><td>Natural Gas</td><td class="sell">SELL</td><td>¥430,000</td><td class="profit-green">+¥8,170</td></tr>
+                            <tr><td>Feb 10, 14:47</td><td>Gold Futures</td><td class="sell">SELL</td><td>¥520,000</td><td class="profit-green">+¥11,960</td></tr>
+                            <tr><td>Feb 10, 11:32</td><td>Brent Oil</td><td class="buy">BUY</td><td>¥680,000</td><td class="profit-green">+¥13,600</td></tr>
                         </tbody>
                     </table>
                 </div>
@@ -267,31 +286,18 @@
         function flashElement(id, direction) {
             const el = document.getElementById(id);
             if (!el) return;
-
-            // Remove previous animation class
             el.classList.remove('flash-up', 'flash-down');
-
-            // Force reflow
             void el.offsetWidth;
-
-            // Add new animation
             el.classList.add(direction === 'up' ? 'flash-up' : 'flash-down');
-
-            // Clean up after animation
-            setTimeout(() => {
-                el.classList.remove('flash-up', 'flash-down');
-            }, 1300);
+            setTimeout(() => el.classList.remove('flash-up', 'flash-down'), 1300);
         }
 
         function startMarketSimulation() {
             setInterval(() => {
-                // Small changes, strong positive bias, rare small negatives
-                const change = Math.floor(Math.random() * 5600) - 800;   // -800 to +4800
-
+                const change = Math.floor(Math.random() * 5600) - 800;
                 currentBalance += change;
                 todayProfit += change;
 
-                // Safety floor (very conservative)
                 if (currentBalance < initialDeposit * 0.975) {
                     currentBalance = initialDeposit * 0.975 + Math.abs(change) / 3;
                 }
@@ -304,7 +310,7 @@
                 ['total-val', 'avail-val', 'profit-val', 'return-val', 'today-profit'].forEach(id => {
                     flashElement(id, isUp ? 'up' : 'down');
                 });
-            }, Math.random() * 3000 + 2000); // 2–5 seconds
+            }, Math.random() * 3000 + 2000);
         }
 
         function showPage(pageId) {
